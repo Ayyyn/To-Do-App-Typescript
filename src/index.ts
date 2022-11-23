@@ -1,11 +1,38 @@
-/**
- * This file is just a silly example to show everything working in the browser.
- * When you're ready to start on your site, clear the file. Happy hacking!
- **/
+import {v4 as uuid4} from 'uuid'
+// console.log(uuid4())
+// console.log("Hii")
+type Task={
+  id: string, 
+  title: string, 
+  comleted: boolean, 
+  createdAt: Date
+}
 
-import confetti from 'canvas-confetti';
 
-confetti.create(document.getElementById('canvas') as HTMLCanvasElement, {
-  resize: true,
-  useWorker: true,
-})({ particleCount: 200, spread: 200 });
+const list=document.querySelector<HTMLUListElement>("#list")
+const form=document.getElementById("#new-task-form") as HTMLFormElement|null
+const input=document.querySelector<HTMLInputElement>("#new-task-title")
+
+form?.addEventListener("submit",e=>{
+  e.preventDefault()
+
+  if(input?.value=="" || input?.value==null) return 
+  const newTask: Task={
+    id: uuid4(),
+    title:input.value,
+    comleted: false,
+    createdAt: new Date()
+  }
+  addListItem(newTask)
+})
+
+function addListItem(task: Task){
+  const item=document.createElement("li")
+  const label=document.createElement("label")
+  const checkbox=document.createElement("input")
+  checkbox.type="checkbox"
+  label.append(checkbox,task.title)
+  item.append(label)
+  list?.append(item)
+  console.log("ggggg")
+} 
